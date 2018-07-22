@@ -32,9 +32,6 @@
     <LangVersion>7.2</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MorseCode.ITask, Version=1.0.85.0, Culture=neutral, PublicKeyToken=214321fcab92c5da, processorArchitecture=MSIL">
-      <HintPath>..\packages\MorseCode.ITask.1.0.85\lib\net45\MorseCode.ITask.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -59,9 +56,6 @@
     <Compile Include="Interfaces\IScalarFunction.cs" />
     <Compile Include="Interfaces\IVector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

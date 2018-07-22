@@ -5,31 +5,22 @@ using Core.Interfaces;
 
 namespace Core.Classes
 {
-    public abstract class IterativeAlgorithm<TInitialParams, TIteration, TResult> 
-        : Algorithm<TInitialParams, TResult>
-        where TInitialParams : class
-        where TIteration : class
-        where TResult : class
+    public abstract class IterativeAlgorithm : Algorithm
     {
         private IIterationsRepository _iterationsRepository;
 
-        protected async override Task<TResult> Computation(Synchronized<bool> isPaused, Synchronized<bool> _isCancelled)
+        protected async override void Computation(Synchronized<bool> isSuspended)
         {
-            while (!_isCancelled)
-            {   
-                while (isPaused) await Task.Delay(1000);
-                bool keepIterate = Iterate(_iterationsRepository);
-                if (!keepIterate) break;
-            }
+            bool keepIterate = true;
 
-            return GetResult(_iterationsRepository);
+            while (keepIterate)
+            {   
+                while (isSuspended) await Task.Delay(1000);
+                keepIterate = await Iterate(_iterationsRepository, isSuspended);
+            }
         }
 
-        protected abstract bool Iterate(IIterationsRepository iterations);
-
-        protected abstract TResult GetResult(IIterationsRepository iterations);
-
-        public Type GetIterationClassType => typeof(TIteration);
+        protected abstract Task<bool> Iterate(IIterationsRepository iterations, Synchronized<bool> isSuspended);
 
         public IterativeAlgorithm(IIterationsRepository iterationsRepository, IMathFactory mathFactory)
             : base(mathFactory)
